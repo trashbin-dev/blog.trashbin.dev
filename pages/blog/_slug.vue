@@ -13,11 +13,15 @@
     </article>
 </template>
 
-<script>
+<script lang="ts">
     export default {
         async asyncData({$content, params}) {
-            const article = await $content("articles", params.slug).fetch()
-            return {article}
+            const article: array = await $content("articles")
+                .where({slug: {"$contains": params.slug}})
+                .fetch()
+                // TODO: catch, maybe put this in a middleware ?
+
+            return {article: article[0]}
         },
         methods: {
             formatDate(date) {
