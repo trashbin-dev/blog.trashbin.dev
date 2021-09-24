@@ -9,7 +9,8 @@
 </template>
 
 <script lang="ts">
-import {filenameToSlug} from "../utils/blog.ts"
+import {Context} from "@nuxt/types"
+import {filenameToSlug} from "@/utils/blog"
 
 export default {
     head() {
@@ -17,9 +18,8 @@ export default {
             title: "Добрый день !",
         }
     },
-    async asyncData({ $content }) {
+    async asyncData({ $content }: Context) {
         const articles = await $content("articles").fetch();
-        console.log(articles)
         return {articles}
     },
     methods: {

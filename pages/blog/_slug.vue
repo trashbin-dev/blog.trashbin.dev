@@ -14,18 +14,25 @@
 </template>
 
 <script lang="ts">
+    import {Context} from "@nuxt/types"
+    import {IContentDocument} from "@nuxt/content/types/content"
+
     export default {
-        async asyncData({$content, params}) {
-            const article: array = await $content("articles")
+        async asyncData({$content, params}: Context) {
+            const articles = await $content("articles")
                 .where({slug: {"$contains": params.slug}})
-                .fetch()
+                .fetch() as IContentDocument[]
                 // TODO: catch, maybe put this in a middleware ?
 
-            return {article: article[0]}
+            return {article: articles[0]}
         },
         methods: {
-            formatDate(date) {
-                const options = {year: "numeric", month: "long", day: "numeric"}
+            formatDate(date: string) {
+                const options: Intl.DateTimeFormatOptions = {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric"
+                }
                 return new Date(date).toLocaleDateString("en", options);
             }
         }

@@ -24,10 +24,14 @@
         },
         "types": [
             "@types/node",
-            "@nuxt/types"
+            "@nuxt/types",
+            "@nuxt/content"
         ]
     },
     "exclude": [
         "node_modules"
+    ],
+    "include": [
+        "./**/*"
     ]
 }
