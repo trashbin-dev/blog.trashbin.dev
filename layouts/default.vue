@@ -11,7 +11,7 @@ export default {
     head() {
         return {
             title: "🤦",
-            titleTemplate: "TrashBin -> %s",
+            titleTemplate: "TrashBin -> %s"
         }
     }
 }
