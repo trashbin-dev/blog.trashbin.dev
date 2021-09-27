@@ -1,5 +1,5 @@
 <template>
-    <article>
+    <article v-if="article">
         <h1>{{article.title}}</h1>
         <p>{{article.description}}</p>
         <span>creation: {{formatDate(article.createdAt)}}</span>
@@ -21,30 +21,29 @@
     </article>
 </template>
 
-<script lang="ts">
-    import {Context} from "@nuxt/types"
-    import {IContentDocument} from "@nuxt/content/types/content"
+<script>
+export default {
+    async asyncData({$content, params}) {
+        const articles = await $content("articles")
+            .where({slug: {"$contains": params.slug}})
+            .fetch()
+            .catch(() => /* TODO: */ undefined);
 
-    export default {
-        async asyncData({$content, params}: Context) {
-            const articles = await $content("articles")
-                .where({slug: {"$contains": params.slug}})
-                .fetch() as IContentDocument[]
-                // TODO: catch, maybe put this in a middleware ?
+        if (articles) {
+            return {article: Array.isArray(articles) ? articles[0] : articles}
+        }
 
-            console.log(articles[0].toc)
-
-            return {article: articles[0]}
-        },
-        methods: {
-            formatDate(date: string) {
-                const options: Intl.DateTimeFormatOptions = {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric"
-                }
-                return new Date(date).toLocaleDateString("en", options);
+        return {article: undefined}
+    },
+    methods: {
+        formatDate(date) {
+            const options = {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
             }
+            return new Date(date).toLocaleDateString("en", options);
         }
     }
+}
 </script>

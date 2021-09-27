@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Ogromny",
+        "icon": "🐻",
+        "slug": "ogromny",
+        "desc": "lorem"
+    },
+    {
+        "name": "P1ngouin",
+        "icon": "🐧",
+        "slug": "p1ngouin",
+        "desc": "lorem"
+    }
+]
