@@ -1,13 +1,21 @@
 <template>
     <article v-if="article">
-        <h1>{{article.title}}</h1>
-        <p>{{article.description}}</p>
-        <span>creation: {{formatDate(article.createdAt)}}</span>
-        <span>updated: {{formatDate(article.updatedAt)}}</span>
-
-        <div class="mt-8 lg:flex lg:space-x-8">
+        <div class="mt-16 lg:flex lg:space-x-8">
             <div class="flex-1 prose max-w-none">
-                <NuxtContent :document="article" />
+                <span class="block text-center font-bold text-3xl text-gray-800">
+                    {{article.title}}
+                </span>
+
+                <span class="block text-center text-gray-700 mt-2">
+                    {{article.description}}
+                </span>
+
+                <div class="flex justify-end items-center text-xs text-gray-700 space-x-2 mt-16">
+                    <AuthorLabel :slug="article.author" />
+                    <span>on {{article.createdAt | date}} ({{article.updatedAt | date}})</span>
+                </div>
+
+                <NuxtContent :document="article" class="mt-8" />
             </div>
 
             <div class="lg:border-l-4 lg:border-gray-50 lg:px-8 w-96">
@@ -22,7 +30,16 @@
 </template>
 
 <script>
+import dFnsFormat from "date-fns/format"
+
 export default {
+    head() {
+        if (!this.article) {
+            return
+        }
+
+        return {title: this.article.description}
+    },
     async asyncData({$content, params}) {
         const articles = await $content("articles")
             .where({slug: {"$contains": params.slug}})
@@ -43,6 +60,12 @@ export default {
                 day: "numeric"
             }
             return new Date(date).toLocaleDateString("en", options);
+        }
+    },
+    filters: {
+        date(value) {
+            const parsed = Date.parse(value)
+            return dFnsFormat(parsed, "dd/MM/yy")
         }
     }
 }

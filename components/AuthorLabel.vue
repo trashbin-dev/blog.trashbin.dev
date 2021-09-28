@@ -1,7 +1,7 @@
 <template>
     <div v-if="author" class="flex gap-x-1 items-center">
         <span>{{author.icon}}</span>
-        <NuxtLink :to="url" class="text-sm text-gray-700">{{author.name}}</NuxtLink>
+        <NuxtLink :to="url" class="text-sm text-gray-700 no-underline">{{author.name}}</NuxtLink>
     </div>
 </template>
 
@@ -32,8 +32,15 @@ export default {
     },
     computed: {
         url() {
-            return `author/${this.slug}`
+            return `/author/${this.slug}`
         }
     }
 }
 </script>
+
+<style scoped>
+/* needed because prose will force underline */
+.no-underline {
+    text-decoration: none!important;
+}
+</style>
