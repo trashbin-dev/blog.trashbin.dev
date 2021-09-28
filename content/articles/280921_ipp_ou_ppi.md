@@ -15,7 +15,7 @@ int i = 1;
 int j = i++;
 ```
 
-Si vous avez répondu **2**, ne vous prenez pas la tête à continuer de lire cet article, je ne vais rien vous apprendre de nouveau, sinon je vous invite à continuer votre lecture.
+Si vous avez répondu **1**, ne vous prenez pas la tête à continuer de lire cet article, je ne vais rien vous apprendre de nouveau, sinon je vous invite à continuer votre lecture.
 
 ## i++ (aka) postfix
 
